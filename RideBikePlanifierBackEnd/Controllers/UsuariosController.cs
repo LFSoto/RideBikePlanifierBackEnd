@@ -41,6 +41,12 @@ namespace RideBikePlanifierBackEnd.Controllers
             return usuario;
         }
 
+        [HttpGet("{id}/{password}")]
+        public async Task<ActionResult<Usuario>> GetUsuario(string id, string password)
+        {
+            return await _context.usuarios.FirstOrDefaultAsync(x => x.correoElectronico == id && x.contrasenia == password);
+        }
+
         // PUT: api/Usuarios/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
