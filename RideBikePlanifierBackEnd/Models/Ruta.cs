@@ -19,6 +19,9 @@ namespace RideBikePlanifierBackEnd.Models
         public float kilometrosRecorrer { get; set; }
         [Required]
         public bool isPublica { get; set; }
+        [Required]
+        [Column(TypeName = "date")]
+        public DateTime fechaSalida { get; set; }
         public string comentarios { get; set; }
         [ForeignKey("creador")]
         public Usuario usuarioNavigation { get; set; }
