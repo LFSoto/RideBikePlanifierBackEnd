@@ -41,6 +41,50 @@ namespace RideBikePlanifierBackEnd.Controllers
             return usuarioRuta;
         }
 
+        [HttpGet("/Tops/{id:int}")]
+        //1: Dificultad
+        //2: Ambiente
+        //3: Evaluación Final
+        public async Task<ActionResult<List<UsuarioRuta>>> getTops(int id)
+        {
+            switch (id)
+            {
+                case 1:
+                    return await _context.usuarioRutas
+                        .Include(x => x.rutaNavigation).ThenInclude(i => i.usuarioNavigation)
+                        .OrderBy(x => x.dificultad)
+                        .Take(10).ToListAsync();
+
+                case 2:
+                    return await _context.usuarioRutas
+                        .Include(x => x.rutaNavigation).ThenInclude(i => i.usuarioNavigation)
+                        .OrderBy(x => x.ambiente)
+                        .Take(10).ToListAsync();
+
+                //case 3:
+                //    List<UsuarioRuta> usuarioRutas = await _context.usuarioRutas
+                //        .Include(x => x.rutaNavigation).ThenInclude(i => i.usuarioNavigation)
+                //        .OrderBy(x => x.evaluacionFinal).ToListAsync();
+                //    List<UsuarioRuta> salida = new List<UsuarioRuta>(); 
+                //    usuarioRutas.GroupBy(x => x.usuario).OrderBy(x => x.Average(g => g.evaluacionFinal)).Take(10);
+                //    foreach(var obj in usuarioRutas)
+                //    {
+                //        if(salida.Exists(x => x.usuario != obj.usuario) && salida.Count < 10)
+                //        {
+                //            salida.Add(obj);
+                //        }
+                //    }
+
+                //    return salida;
+
+                default:
+                    return await _context.usuarioRutas
+                        .Include(x => x.rutaNavigation).ThenInclude(i => i.usuarioNavigation)
+                        .OrderBy(x => x.evaluacionFinal)
+                        .Take(10).ToListAsync();
+            }
+        }
+
         // PUT: api/UsuarioRutas/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.

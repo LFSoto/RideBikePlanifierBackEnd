@@ -25,11 +25,16 @@ namespace RideBikePlanifierBackEnd.Models
             modelBuilder.Entity<Amigo>().HasOne(x => x.usuarioNavigation).WithMany().OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Amigo>().HasOne(x => x.amigoNavigation).WithMany().OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Coordenada>().HasKey(x => new { x.ruta, x.latitud, x.longitud });
+
+            modelBuilder.Entity<Coordenada>().HasOne(x => x.rutaNavigation).WithMany().OnDelete(DeleteBehavior.NoAction);
         }
 
         public DbSet<Usuario> usuarios { get; set; }
         public DbSet<Ruta> rutas { get; set; }
         public DbSet<UsuarioRuta> usuarioRutas { get; set; }
         public DbSet<Amigo> amigos { get; set; }
+        public DbSet<Coordenada> coordenadas { get; set; }
     }
 }
