@@ -27,11 +27,12 @@ namespace RideBikePlanifierBackEnd.Controllers
             return await _context.usuarioRutas.ToListAsync();
         }
 
-        // GET: api/UsuarioRutas/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UsuarioRuta>> GetUsuarioRuta(int id)
+        // GET: api/UsuarioRutas/5/1
+        [HttpGet("{ruta:int/usuario:string}")]
+        public async Task<ActionResult<UsuarioRuta>> GetUsuarioRuta(int ruta, string usuario)
         {
-            var usuarioRuta = await _context.usuarioRutas.FindAsync(id);
+            var usuarioRuta = await _context.usuarioRutas
+                .FirstOrDefaultAsync(x => x.ruta == ruta && x.usuario == usuario);
 
             if (usuarioRuta == null)
             {

@@ -29,9 +29,9 @@ namespace RideBikePlanifierBackEnd.Controllers
 
         // GET: api/Coordenadas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Coordenada>> GetCoordenada(int id)
+        public async Task<ActionResult<List<Coordenada>>> GetCoordenada(int id)
         {
-            var coordenada = await _context.coordenadas.FindAsync(id);
+            var coordenada = await _context.coordenadas.Where(x => x.ruta == id).ToListAsync();
 
             if (coordenada == null)
             {
