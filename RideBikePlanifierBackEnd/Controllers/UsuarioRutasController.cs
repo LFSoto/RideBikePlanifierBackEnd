@@ -28,7 +28,7 @@ namespace RideBikePlanifierBackEnd.Controllers
         }
 
         // GET: api/UsuarioRutas/5/1
-        [HttpGet("{ruta:int/usuario:string}")]
+        [HttpGet("{ruta:int}/{usuario}")]
         public async Task<ActionResult<UsuarioRuta>> GetUsuarioRuta(int ruta, string usuario)
         {
             var usuarioRuta = await _context.usuarioRutas
