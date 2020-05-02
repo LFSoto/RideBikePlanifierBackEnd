@@ -27,20 +27,20 @@ namespace RideBikePlanifierBackEnd.Controllers
             return await _context.usuarioRutas.ToListAsync();
         }
 
-        //// GET: api/UsuarioRutas/5/1
-        //[HttpGet("{ruta:int/usuario:string}")]
-        //public async Task<ActionResult<UsuarioRuta>> GetUsuarioRuta(int ruta, string usuario)
-        //{
-        //    var usuarioRuta = await _context.usuarioRutas
-        //        .FirstOrDefaultAsync(x => x.ruta == ruta && x.usuario == usuario);
+        // GET: api/UsuarioRutas/5/1
+        [HttpGet("{ruta:int/usuario:string}")]
+        public async Task<ActionResult<UsuarioRuta>> GetUsuarioRuta(int ruta, string usuario)
+        {
+            var usuarioRuta = await _context.usuarioRutas
+                .FirstOrDefaultAsync(x => x.ruta == ruta && x.usuario == usuario);
 
-        //    if (usuarioRuta == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (usuarioRuta == null)
+            {
+                return NotFound();
+            }
 
-        //    return usuarioRuta;
-        //}
+            return usuarioRuta;
+        }
 
         [HttpGet("/Tops/{id:int}")]
         //1: Dificultad
