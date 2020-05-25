@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -109,19 +110,20 @@ namespace RideBikePlanifierBackEnd.Controllers
         }
 
         // DELETE: api/Amigos/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Amigo>> DeleteAmigo(string id)
+        [HttpDelete("{usuario}/{amigo}")]
+        public async Task<ActionResult<Amigo>> DeleteAmigo(string usuario, string amigo)
         {
-            var amigo = await _context.amigos.FindAsync(id);
+            var obj = await _context.amigos
+                .FirstOrDefaultAsync(x => x.usuario == usuario && x.amigo == amigo);
             if (amigo == null)
             {
                 return NotFound();
             }
 
-            _context.amigos.Remove(amigo);
+            _context.amigos.Remove(obj);
             await _context.SaveChangesAsync();
 
-            return amigo;
+            return obj;
         }
 
         private bool AmigoExists(string id)
