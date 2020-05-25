@@ -31,8 +31,7 @@ namespace RideBikePlanifierBackEnd.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Amigo>>> GetAmigo(string id)
         {
-            var amigo = await _context.amigos.Include(x => x.amigoNavigation)
-                .Where(x => x.usuario == id).ToListAsync();
+            var amigo = await _context.amigos.Where(x => x.usuario == id).ToListAsync();
 
             if (amigo == null)
             {
