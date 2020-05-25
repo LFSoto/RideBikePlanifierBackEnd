@@ -22,9 +22,18 @@ namespace RideBikePlanifierBackEnd.Controllers
 
         // GET: api/Amigos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Amigo>>> Getamigos()
+        public async Task<ActionResult<string>> Getamigos()
         {
-            return await _context.amigos.ToListAsync();
+            //return await _context.amigos.ToListAsync();
+            List<Amigo> amigos = await _context.amigos
+                .ToListAsync();
+            string str = "";
+            foreach (var amigo in amigos)
+            {
+                str += amigo.amigo;
+                str += ",";
+            }
+            return str;
         }
 
         // GET: api/Amigos/5
