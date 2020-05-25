@@ -27,12 +27,14 @@ namespace RideBikePlanifierBackEnd.Controllers
             //return await _context.amigos.ToListAsync();
             List<Amigo> amigos = await _context.amigos
                 .ToListAsync();
-            string str = "";
+            string str = "[";
             foreach (var amigo in amigos)
             {
+                str += "\"";
                 str += amigo.amigo;
-                str += ",";
+                str += "\",";
             }
+            str += "]";
             return str;
         }
 
@@ -43,12 +45,14 @@ namespace RideBikePlanifierBackEnd.Controllers
             List<Amigo> amigos = await _context.amigos
                 .Where(x => x.usuario == id)
                 .ToListAsync();
-            string str = "";
+            string str = "[";
             foreach(var amigo in amigos)
             {
+                str += "\"";
                 str += amigo.amigo;
-                str += ",";
+                str += "\",";
             }
+            str += "]";
             return str;
         }
 
