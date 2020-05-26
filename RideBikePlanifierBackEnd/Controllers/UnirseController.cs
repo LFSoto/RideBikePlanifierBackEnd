@@ -22,7 +22,7 @@ namespace RideBikePlanifierBackEnd.Controllers
 
         // GET: api/Unirse/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Ruta>>> GetAmigo(string id)
+        public async Task<ActionResult<List<Ruta>>> GetUnirse(string id)
         {
             List<Amigo> amigos = await _context.amigos
                 .Where(x => x.usuario == id)
@@ -38,7 +38,7 @@ namespace RideBikePlanifierBackEnd.Controllers
 
             foreach(var ruta in rutas)
             {
-                if(ruta.isPublica == true || list.Exists(x => x.Equals(ruta.creador)))
+                if((ruta.isPublica == true || list.Exists(x => x.Equals(ruta.creador))) && ruta.creador != id)
                 {
                     finales.Add(ruta);
                 }
