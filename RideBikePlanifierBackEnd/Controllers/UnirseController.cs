@@ -33,7 +33,7 @@ namespace RideBikePlanifierBackEnd.Controllers
                 list.Add(amigo.amigo);
             }
 
-            List<Ruta> rutas = await _context.rutas.ToListAsync();
+            List<Ruta> rutas = await _context.rutas.Where(x => x.fechaSalida > DateTime.Now).ToListAsync();
             List<Ruta> finales = new List<Ruta>();
 
             foreach(var ruta in rutas)
