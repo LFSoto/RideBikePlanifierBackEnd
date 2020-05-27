@@ -21,6 +21,7 @@ namespace RideBikePlanifierBackEnd.Models
         public int? ambiente { get; set; }
         public int? evaluacionFinal { get; set; }
         public string comentariosEvaluacion { get; set; }
+        public bool isCalificada { get; set; }
         [ForeignKey("ruta")]
         public Ruta rutaNavigation { get; set; }
         [ForeignKey("usuario")]

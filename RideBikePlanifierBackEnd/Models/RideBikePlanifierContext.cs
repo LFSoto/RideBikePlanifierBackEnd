@@ -14,21 +14,43 @@ namespace RideBikePlanifierBackEnd.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UsuarioRuta>().HasKey(x => new { x.ruta, x.usuario });
+            modelBuilder.Entity<UsuarioRuta>()
+                .HasKey(x => new { x.ruta, x.usuario });
 
-            modelBuilder.Entity<UsuarioRuta>().HasOne(x => x.usuarioNavigation).WithMany().OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<UsuarioRuta>()
+                .HasOne(x => x.usuarioNavigation)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<UsuarioRuta>().HasOne(x => x.rutaNavigation).WithMany().OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<UsuarioRuta>()
+                .HasOne(x => x.rutaNavigation)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Amigo>().HasKey(x => new { x.usuario, x.amigo });
+            modelBuilder.Entity<Amigo>()
+                .HasKey(x => new { x.usuario, x.amigo });
 
-            modelBuilder.Entity<Amigo>().HasOne(x => x.usuarioNavigation).WithMany().OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Amigo>()
+                .HasOne(x => x.usuarioNavigation)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Amigo>().HasOne(x => x.amigoNavigation).WithMany().OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Amigo>()
+                .HasOne(x => x.amigoNavigation)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Coordenada>().HasKey(x => new { x.ruta, x.latitud, x.longitud });
+            modelBuilder.Entity<Coordenada>()
+                .HasKey(x => new { x.ruta, x.latitud, x.longitud });
 
-            modelBuilder.Entity<Coordenada>().HasOne(x => x.rutaNavigation).WithMany().OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Coordenada>()
+                .HasOne(x => x.rutaNavigation)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<UsuarioRuta>()
+                .Property(x => x.isCalificada)
+                .HasDefaultValue(false);
         }
 
         public DbSet<Usuario> usuarios { get; set; }
