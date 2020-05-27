@@ -46,7 +46,23 @@ namespace RideBikePlanifierBackEnd.Controllers
             return finales;
         }
 
-        // POST: api/UsuarioRutas/5/1
+        [HttpGet("UnirseUsuario/{id}")]
+        public async Task<ActionResult<List<int>>> GetUnirseUsuario(string id)
+        {
+            List<UsuarioRuta> usuarioRutas = await _context.usuarioRutas
+                .Where(x => x.usuario == id).ToListAsync();
+
+            List<int> rutas = new List<int>();
+
+            foreach(var usuarioRuta in usuarioRutas)
+            {
+                rutas.Add(usuarioRuta.ruta);
+            }
+
+            return rutas;
+        }
+
+        // GET: api/Unirse/5/1
         [HttpGet("{ruta:int}/{usuario}")]
         public async Task<ActionResult<UsuarioRuta>> GetUsuarioRuta(int ruta, string usuario)
         {
