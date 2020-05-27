@@ -46,7 +46,7 @@ namespace RideBikePlanifierBackEnd.Controllers
             return finales;
         }
 
-        [HttpGet("/UnirseUsuario/{id}")]
+        [HttpGet("/api/UnirseUsuario/{id}")]
         public async Task<ActionResult<List<int>>> GetUnirseUsuario(string id)
         {
             List<UsuarioRuta> usuarioRutas = await _context.usuarioRutas
