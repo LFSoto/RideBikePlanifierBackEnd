@@ -26,7 +26,7 @@ namespace RideBikePlanifierBackEnd.Controllers
         {
             return await _context.usuarioRutas
                 .Include(x => x.rutaNavigation)
-                .Where(x => x.usuario == id).ToListAsync();
+                .Where(x => x.usuario == id).OrderByDescending(x=>x.rutaNavigation.fechaSalida).ToListAsync();
         }
 
         // PUT: api/Calificaciones/5
