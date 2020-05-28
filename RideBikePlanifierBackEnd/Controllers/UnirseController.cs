@@ -33,12 +33,14 @@ namespace RideBikePlanifierBackEnd.Controllers
                 list.Add(amigo.amigo);
             }
 
+            list.Add(id);
+
             List<Ruta> rutas = await _context.rutas.Where(x => x.fechaSalida > DateTime.Now).ToListAsync();
             List<Ruta> finales = new List<Ruta>();
 
             foreach(var ruta in rutas)
             {
-                if((ruta.isPublica == true || list.Exists(x => x.Equals(ruta.creador))) && ruta.creador != id)
+                if((ruta.isPublica == true || list.Exists(x => x.Equals(ruta.creador))) /*&& ruta.creador != id*/)
                 {
                     finales.Add(ruta);
                 }
