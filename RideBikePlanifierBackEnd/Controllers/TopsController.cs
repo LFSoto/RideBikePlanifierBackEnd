@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RideBikePlanifierBackEnd.Models;
-
 
 namespace RideBikePlanifierBackEnd.Controllers
 {
@@ -54,9 +55,10 @@ namespace RideBikePlanifierBackEnd.Controllers
             switch (id)
             {
                 case 1:
-                    obj.OrderByDescending(x => x.dificultad);
-                    foreach (var list in obj)
+                    var topsDificultad = obj.OrderByDescending(x => x.dificultad);
+                    foreach (var list in topsDificultad)
                     {
+                        Console.WriteLine("{0}, {1}, {2}, {3}", list.ruta, list.dificultad, list.ambiente, list.evaluacionFinal);
                         Ruta ruta = await _context.rutas.FirstOrDefaultAsync(x => x.id == list.ruta);
                         rutas.Add(ruta);
                         if (rutas.Count == 10)
@@ -68,8 +70,8 @@ namespace RideBikePlanifierBackEnd.Controllers
 
 
                 case 2:
-                    obj.OrderByDescending(x => x.ambiente);
-                    foreach (var list in obj)
+                    var topsAmbiente = obj.OrderByDescending(x => x.ambiente);
+                    foreach (var list in topsAmbiente)
                     {
                         Ruta ruta = await _context.rutas.FirstOrDefaultAsync(x => x.id == list.ruta);
                         rutas.Add(ruta);
@@ -82,8 +84,8 @@ namespace RideBikePlanifierBackEnd.Controllers
 
 
                 default:
-                    obj.OrderByDescending(x => x.evaluacionFinal);
-                    foreach (var list in obj)
+                    var topsEvaluacionFinal = obj.OrderByDescending(x => x.evaluacionFinal);
+                    foreach (var list in topsEvaluacionFinal)
                     {
                         Ruta ruta = await _context.rutas.FirstOrDefaultAsync(x => x.id == list.ruta);
                         rutas.Add(ruta);
