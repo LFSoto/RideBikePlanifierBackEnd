@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RideBikePlanifierBackEnd.Models;
 
+
+
 namespace RideBikePlanifierBackEnd.Controllers
 {
     [Route("api/[controller]")]
@@ -16,10 +18,14 @@ namespace RideBikePlanifierBackEnd.Controllers
     {
         private readonly RideBikePlanifierContext _context;
 
+
+
         public TopsController(RideBikePlanifierContext context)
         {
             _context = context;
         }
+
+
 
         // GET: api/Tops
         [HttpGet]
@@ -28,6 +34,8 @@ namespace RideBikePlanifierBackEnd.Controllers
             return await _context.usuarioRutas.ToListAsync();
         }
 
+
+
         // GET: api/Tops/5
         [HttpGet("{id}")]
         //1: Dificultad
@@ -35,7 +43,9 @@ namespace RideBikePlanifierBackEnd.Controllers
         //3: Evaluación Final
         public async Task<ActionResult<List<Ruta>>> getTops(int id)
         {
-            object obj = await _context.usuarioRutas
+            object obj = await _context.usuarioRutas.Where(x => x.dificultad != null
+            && x.ambiente != null
+            && x.evaluacionFinal != null)
                         .GroupBy(x => x.ruta)
                         .Select(g => new
                         {
@@ -45,24 +55,32 @@ namespace RideBikePlanifierBackEnd.Controllers
                             evaluacionFinal = g.Average(y => y.evaluacionFinal)
                         }).ToListAsync();
 
-            //List<Top> lista = JsonConvert.DeserializeObject<List<Top>>(obj.ToString());
-            List<Top> lista = obj as List<Top>;
+
+
+            List<Top> lista = JsonConvert.DeserializeObject<List<Top>>(obj.ToString());
+
+
+
             List<Ruta> rutas = new List<Ruta>();
+
+
 
             switch (id)
             {
                 case 1:
                     lista.OrderByDescending(x => x.dificultad);
-                    foreach(var list in lista)
+                    foreach (var list in lista)
                     {
                         Ruta ruta = await _context.rutas.FirstOrDefaultAsync(x => x.id == list.ruta);
                         rutas.Add(ruta);
-                        if(rutas.Count == 10)
+                        if (rutas.Count == 10)
                         {
                             return rutas;
                         }
                     }
                     return rutas;
+
+
 
                 case 2:
                     lista.OrderByDescending(x => x.ambiente);
@@ -76,6 +94,8 @@ namespace RideBikePlanifierBackEnd.Controllers
                         }
                     }
                     return rutas;
+
+
 
                 default:
                     lista.OrderByDescending(x => x.evaluacionFinal);
