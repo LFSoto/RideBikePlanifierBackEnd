@@ -1,4 +1,6 @@
-﻿using System;
+﻿[9:31 p.m.] MAURICIO CAMPOS MONTERO
+    
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RideBikePlanifierBackEnd.Models;
-
 
 
 namespace RideBikePlanifierBackEnd.Controllers
@@ -19,12 +20,10 @@ namespace RideBikePlanifierBackEnd.Controllers
         private readonly RideBikePlanifierContext _context;
 
 
-
         public TopsController(RideBikePlanifierContext context)
         {
             _context = context;
         }
-
 
 
         // GET: api/Tops
@@ -33,7 +32,6 @@ namespace RideBikePlanifierBackEnd.Controllers
         {
             return await _context.usuarioRutas.ToListAsync();
         }
-
 
 
         // GET: api/Tops/5
@@ -56,13 +54,10 @@ namespace RideBikePlanifierBackEnd.Controllers
                         }).ToListAsync();
 
 
-
             List<Top> lista = JsonConvert.DeserializeObject<List<Top>>(obj.ToString());
 
 
-
             List<Ruta> rutas = new List<Ruta>();
-
 
 
             switch (id)
@@ -81,7 +76,6 @@ namespace RideBikePlanifierBackEnd.Controllers
                     return rutas;
 
 
-
                 case 2:
                     lista.OrderByDescending(x => x.ambiente);
                     foreach (var list in lista)
@@ -94,7 +88,6 @@ namespace RideBikePlanifierBackEnd.Controllers
                         }
                     }
                     return rutas;
-
 
 
                 default:
@@ -113,3 +106,15 @@ namespace RideBikePlanifierBackEnd.Controllers
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
