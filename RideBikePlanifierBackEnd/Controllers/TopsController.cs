@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using RideBikePlanifierBackEnd.Models;
 
 namespace RideBikePlanifierBackEnd.Controllers
@@ -45,7 +45,8 @@ namespace RideBikePlanifierBackEnd.Controllers
                             evaluacionFinal = g.Average(y => y.evaluacionFinal)
                         }).ToListAsync();
 
-            List<Top> lista = JsonConvert.DeserializeObject<List<Top>>(obj.ToString());
+            //List<Top> lista = JsonConvert.DeserializeObject<List<Top>>(obj.ToString());
+            List<Top> lista = JsonSerializer.Deserialize<List<Top>>(obj.ToString());
 
             List<Ruta> rutas = new List<Ruta>();
 
