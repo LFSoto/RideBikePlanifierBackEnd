@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,43 +33,62 @@ namespace RideBikePlanifierBackEnd.Controllers
         //1: Dificultad
         //2: Ambiente
         //3: Evaluación Final
-        public async Task<ActionResult<List<UsuarioRuta>>> getTops(int id)
+        public async Task<ActionResult<List<Ruta>>> getTops(int id)
         {
+            object obj = await _context.usuarioRutas
+                        .GroupBy(x => x.ruta)
+                        .Select(g => new
+                        {
+                            ruta = g.Key,
+                            dificultad = g.Average(y => y.dificultad),
+                            ambiente = g.Average(y => y.ambiente),
+                            evaluacionFinal = g.Average(y => y.evaluacionFinal)
+                        }).ToListAsync();
+
+            List<Top> lista = JsonSerializer.Deserialize<List<Top>>(obj.ToString());
+
+            List<Ruta> rutas = new List<Ruta>();
+
             switch (id)
             {
                 case 1:
-                    return await _context.usuarioRutas
-                        .Include(x => x.rutaNavigation).ThenInclude(i => i.usuarioNavigation)
-                        .OrderBy(x => x.dificultad).Distinct()
-                        .Take(10).ToListAsync();
+                    lista.OrderByDescending(x => x.dificultad);
+                    foreach(var list in lista)
+                    {
+                        Ruta ruta = await _context.rutas.FirstOrDefaultAsync(x => x.id == list.ruta);
+                        rutas.Add(ruta);
+                        if(rutas.Count == 10)
+                        {
+                            return rutas;
+                        }
+                    }
+                    return rutas;
 
                 case 2:
-                    return await _context.usuarioRutas
-                        .Include(x => x.rutaNavigation).ThenInclude(i => i.usuarioNavigation)
-                        .OrderBy(x => x.ambiente).Distinct()
-                        .Take(10).ToListAsync();
-
-                //case 3:
-                //    List<UsuarioRuta> usuarioRutas = await _context.usuarioRutas
-                //        .Include(x => x.rutaNavigation).ThenInclude(i => i.usuarioNavigation)
-                //        .OrderBy(x => x.evaluacionFinal).ToListAsync();
-                //    List<UsuarioRuta> salida = new List<UsuarioRuta>(); 
-                //    usuarioRutas.GroupBy(x => x.usuario).OrderBy(x => x.Average(g => g.evaluacionFinal)).Take(10);
-                //    foreach(var obj in usuarioRutas)
-                //    {
-                //        if(salida.Exists(x => x.usuario != obj.usuario) && salida.Count < 10)
-                //        {
-                //            salida.Add(obj);
-                //        }
-                //    }
-
-                //    return salida;
+                    lista.OrderByDescending(x => x.ambiente);
+                    foreach (var list in lista)
+                    {
+                        Ruta ruta = await _context.rutas.FirstOrDefaultAsync(x => x.id == list.ruta);
+                        rutas.Add(ruta);
+                        if (rutas.Count == 10)
+                        {
+                            return rutas;
+                        }
+                    }
+                    return rutas;
 
                 default:
-                    return await _context.usuarioRutas
-                        .Include(x => x.rutaNavigation).ThenInclude(i => i.usuarioNavigation)
-                        .OrderBy(x => x.evaluacionFinal)
-                        .Take(10).ToListAsync();
+                    lista.OrderByDescending(x => x.evaluacionFinal);
+                    foreach (var list in lista)
+                    {
+                        Ruta ruta = await _context.rutas.FirstOrDefaultAsync(x => x.id == list.ruta);
+                        rutas.Add(ruta);
+                        if (rutas.Count == 10)
+                        {
+                            return rutas;
+                        }
+                    }
+                    return rutas;
             }
         }
     }
