@@ -35,7 +35,9 @@ namespace RideBikePlanifierBackEnd.Controllers
         //3: Evaluación Final
         public async Task<ActionResult<List<Ruta>>> getTops(int id)
         {
-            object obj = await _context.usuarioRutas
+            object obj = await _context.usuarioRutas.Where(x => x.dificultad != null 
+            && x.ambiente != null 
+            && x.evaluacionFinal != null)
                         .GroupBy(x => x.ruta)
                         .Select(g => new
                         {
