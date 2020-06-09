@@ -44,7 +44,7 @@ namespace RideBikePlanifierBackEnd.Controllers
                             ambiente = g.Average(y => y.ambiente),
                             evaluacionFinal = g.Average(y => y.evaluacionFinal)
                         }).ToListAsync();
-
+            Console.WriteLine(obj);
             List<Top> lista = JsonSerializer.Deserialize<List<Top>>(obj.ToString());
 
             List<Ruta> rutas = new List<Ruta>();
