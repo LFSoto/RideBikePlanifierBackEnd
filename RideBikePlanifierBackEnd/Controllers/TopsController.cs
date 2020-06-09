@@ -48,6 +48,7 @@ namespace RideBikePlanifierBackEnd.Controllers
                         }).ToListAsync();
 
             //List<Top> lista = JsonConvert.DeserializeObject<List<Top>>(obj.ToString());
+
             List<Top> lista = JsonSerializer.Deserialize<List<Top>>(obj.ToString());
 
             List<Ruta> rutas = new List<Ruta>();
